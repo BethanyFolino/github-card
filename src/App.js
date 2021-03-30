@@ -1,29 +1,48 @@
+import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Card } from "bootstrap";
+import { Button, Card } from "react-bootstrap";
 
-function App() {
-  this.state = { user: {}, active: false };
+function App(props) {
+  const [
+    state = {
+      user: {},
+      active: false,
+    },
+    setState,
+  ] = useState({});
 
-  function handleToggle() {
+  function handleToggle(props) {
     console.log("Made you click!");
-    fetch("https://api.github.com/users/BethanyFolino").then(
-      this.state.user == "BethanyFolino"
-    );
-    !this.state.active;
+    state.active = !state.active;
+    fetch("https://api.github.com/users/BethanyFolino").then((res) => res.json)
+
+    if (state.active === true) {
+      return (
+        <Card style={{ width: "18rem" }}>
+          <Card.Img variant="top" src={props.state.avatar_url} />
+          <Card.Body>
+            <Card.Title>{props.state.name}</Card.Title>
+            <Card.Subtitle>{props.state.login}</Card.Subtitle>
+            <Card.Text>{props.state.location}</Card.Text>
+          </Card.Body>
+        </Card>
+      );
+    }
   }
 
   return (
     <div className="App">
-      <Card style={{ width: "18rem" }}>
+      {/* <Card style={{ width: "18rem" }}>
+        <Card.Img variant="top" src={userPicture} />
         <Card.Body>
-          <Card.Title>{this.state.avatar_url}</Card.Title>
-          <Card.Subtitle>{this.state.user}</Card.Subtitle>
+          <Card.Title>{userName}</Card.Title>
+          <Card.Subtitle>{userName}</Card.Subtitle>
         </Card.Body>
-        <Button variant="info" onClick={handleToggle}>
-          Toggle User
-        </Button>
-      </Card>
+      </Card> */}
+      <Button variant="info" onClick={handleToggle}>
+        Toggle User
+      </Button>
     </div>
   );
 }

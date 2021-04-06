@@ -26,7 +26,7 @@ function App() {
     user.active = !user.active;
     //fetch my Github info
     getUser();
-    if (this.state.active === true) {
+    if (user.active === true) {
       return (
         <Card style={{ width: "18rem" }}>
           <Card.Img variant="top" src={user.avatar_url} />

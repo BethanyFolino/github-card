@@ -3,28 +3,37 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Card } from "react-bootstrap";
 
-function App(props) {
-  const [
-    state = {
-      user: {},
-      active: false,
-    },
-    setState,
-  ] = useState({});
+function App() {
+  const [user, setUser] = useState({ User: {}, active: false });
 
-  function handleToggle(props) {
+  function getUser(username) {
+    return (fetch("https://api.github.com/user/BethanyFolino"),
+    {
+      method: "GET",
+      headers: { Accept: "application/vnd.github.v3+json" },
+      body: json.stringify({
+        name,
+        email,
+        avatar_url,
+        location,
+      }),
+    }).then((res) => setUser(res.json()));
+  }
+
+  function handleToggle() {
     console.log("Made you click!");
-    state.active = !state.active;
-    fetch("https://api.github.com/users/BethanyFolino").then((res) => res.json)
-
-    if (state.active === true) {
+    //toggle active when button is clicked
+    user.active = !user.active;
+    //fetch my Github info
+    getUser();
+    if (this.state.active === true) {
       return (
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={props.state.avatar_url} />
+          <Card.Img variant="top" src={user.avatar_url} />
           <Card.Body>
-            <Card.Title>{props.state.name}</Card.Title>
-            <Card.Subtitle>{props.state.login}</Card.Subtitle>
-            <Card.Text>{props.state.location}</Card.Text>
+            <Card.Title>{user.name}</Card.Title>
+            <Card.Subtitle>{user.location}</Card.Subtitle>
+            <Card.Text>{user.email}</Card.Text>
           </Card.Body>
         </Card>
       );
@@ -33,13 +42,6 @@ function App(props) {
 
   return (
     <div className="App">
-      {/* <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={userPicture} />
-        <Card.Body>
-          <Card.Title>{userName}</Card.Title>
-          <Card.Subtitle>{userName}</Card.Subtitle>
-        </Card.Body>
-      </Card> */}
       <Button variant="info" onClick={handleToggle}>
         Toggle User
       </Button>

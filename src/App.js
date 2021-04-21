@@ -1,48 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Card } from "react-bootstrap";
 
 function App() {
-  const [user, setUser] = useState({ User: {}, active: false });
+  const [user, setUser] = useState({});
+  const [active, setActive] = useState(false);
 
-  function getUser(username) {
-    return (fetch("https://api.github.com/user/BethanyFolino"),
-    {
-      method: "GET",
-      headers: { Accept: "application/vnd.github.v3+json" },
-      body: json.stringify({
-        name,
-        email,
-        avatar_url,
-        location,
-      }),
-    }).then((res) => setUser(res.json()));
-  }
+  useEffect(() => {
+    fetch("https://api.github.com/users/BethanyFolino")
+      .then((res) => res.json())
+      .then((info) => setUser(info));
+  }, []);
 
-  function handleToggle() {
+  const handleToggle = (e) => {
     console.log("Made you click!");
-    //toggle active when button is clicked
-    user.active = !user.active;
-    //fetch my Github info
-    getUser();
-    if (user.active === true) {
-      return (
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={user.avatar_url} />
-          <Card.Body>
-            <Card.Title>{user.name}</Card.Title>
-            <Card.Subtitle>{user.location}</Card.Subtitle>
-            <Card.Text>{user.email}</Card.Text>
-          </Card.Body>
-        </Card>
-      );
-    }
-  }
+    e.preventDefault();
+    setActive(!active);
+  };
 
   return (
     <div className="App">
-      <Button variant="info" onClick={handleToggle}>
+      <style type="text/css">
+        {`
+            
+            .button {
+              background-color: orangered;
+              color: white;
+            }
+
+            .mb-2 {
+              background-color: orangered;
+              color: white;
+            }
+            
+            `}
+      </style>
+      {active ? (
+        <Card
+          bg="flat"
+          text="white"
+          style={{ width: "18rem" }}
+          className="mb-2"
+        >
+          <Card.Body>
+            <Card.Img variant="top" src={user.avatar_url} />
+            <Card.Title>{user.name}</Card.Title>
+            <Card.Text>{user.login}</Card.Text>
+            <Card.Text>{user.location}</Card.Text>
+            <Card.Text>{user.bio}</Card.Text>
+          </Card.Body>
+        </Card>
+      ) : null}
+      <Button className="button" variant="flat" onClick={handleToggle}>
         Toggle User
       </Button>
     </div>
